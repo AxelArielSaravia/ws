@@ -99,7 +99,7 @@ function ws() {
                 echo ""
                 ;;
             "remove")
-                echo "Usage: $NAME remove NAME [-tmux|-wmux|-all]"
+                echo "Usage: $NAME remove NAME [-tmux|-ws|-all]"
                 echo ""
                 echo "Delete a specific working direactory."
                 echo ""
@@ -109,7 +109,7 @@ function ws() {
                 echo "    -all  (default) delete both wmux and tmux information"
                 echo "    -tmux delete only the tmux session. You can use '$NAME init' to create"
                 echo "          a related tmux session again."
-                echo "    -wmux delete only the wmux information. If the tmux session are not"
+                echo "    -ws   delete only the wmux information. If the tmux session are not"
                 echo "          persistent, the tmux information will be deleted."
                 echo ""
                 echo "If you are in a tmux session (and the '-tmux' option is set), the tmux"
@@ -117,7 +117,7 @@ function ws() {
                 echo ""
                 ;;
             "remove-all")
-                echo "Usage: $NAME remove-all [-tmux|-wmux|-all]"
+                echo "Usage: $NAME remove-all [-tmux|-ws|-all]"
                 echo ""
                 echo "Delete all working direactory."
                 echo ""
@@ -125,7 +125,7 @@ function ws() {
                 echo "    -all  (default) delete both wmux and tmux information"
                 echo "    -tmux delete only the tmux session. You can use '$NAME init' to create"
                 echo "          a related tmux session again."
-                echo "    -wmux delete only the wmux information. If the tmux session are not"
+                echo "    -ws   delete only the wmux information. If the tmux session are not"
                 echo "          persistent, the tmux information will be deleted."
                 echo ""
                 ;;
@@ -159,6 +159,7 @@ function ws() {
                 echo "    add           add a new working directory"
                 echo "    clear-history clear history of all tmux sessions"
                 echo "    dirs          get all asigned directories"
+                echo "    go            jump to a workspace"
                 echo "    init          init all workspace as tmux sessions"
                 echo "    list          list all working directories"
                 echo "    names         get all asigned names"
