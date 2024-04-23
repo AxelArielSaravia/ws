@@ -1,5 +1,5 @@
 # ws
-v0.0.3
+v0.0.4
 [![GLWTPL](https://img.shields.io/badge/GLWT-Public_License-red.svg)](https://github.com/me-shaon/GLWTPL
 )
 
@@ -83,7 +83,7 @@ ws remove myproject -wmux #only delete the workspace
 
 ``list``, ``dirs`` and ``names`` returns worspace information.
 
-If you only want to jump to a workspace, you can use: (it is a 'cd' wraper)
+If you only want to jump to a workspace, you can use: (it is a 'cd' wrapper)
 ```sh
 ws go myproject
 ```

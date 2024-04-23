@@ -16,7 +16,7 @@
 #"version"
 
 function ws() {
-    local VERSION="0.0.3"
+    local VERSION="0.0.4"
     local NAME="ws"
     local WORKSPACE_FILE="$HOME/.$NAME/.workspace"
 
@@ -25,15 +25,19 @@ function ws() {
     local workspace_names=()
     local workspace_dirs=()
 
+
     if [[ -f "$WORKSPACE_FILE" ]]; then
         if [[ -s "$WORKSPACE_FILE" ]]; then
-            workspace_names=($(cat $WORKSPACE_FILE | cut -d" " -f1))
-            workspace_dirs=($(cat $WORKSPACE_FILE | cut -d" " -f2))
             workspace_exist=true
         fi
     else
         touch $WORKSPACE_FILE
     fi
+
+    _set_workspaces() {
+        workspace_names=($(cat $WORKSPACE_FILE | cut -d" " -f1))
+        workspace_dirs=($(cat $WORKSPACE_FILE | cut -d" " -f2))
+    }
 
     _help() {
         local arg="$1"
@@ -193,6 +197,8 @@ function ws() {
             tmux_session=true
         fi
 
+        _set_workspaces
+
         local msg_name="$NAME add:"
         local msg_exit="$msg_name do nothing."
 
@@ -264,6 +270,7 @@ function ws() {
         esac
 
         if [[ $workspace_exist == true ]]; then
+            _set_workspaces
             if [[ $tmux_clear == true ]]; then
                 tmux kill-server &> /dev/null
             fi
@@ -291,6 +298,9 @@ function ws() {
             echo $msg_no_found
             return;
         fi
+
+        _set_workspaces
+
         local name_index=-1
         for i in "${!workspace_names[@]}"; do
             if [[ "$workspace_name" == ${workspace_names[i]} ]]; then
@@ -345,6 +355,9 @@ function ws() {
             echo $msg_no_found
             return;
         fi
+
+        _set_workspaces
+
         local name_index=-1;
         for i in ${!workspace_names[@]}; do
             if [[ "$workspace_name" == ${workspace_names[i]} ]]; then
@@ -370,6 +383,7 @@ function ws() {
             echo $msg_no_found
             return;
         fi
+        _set_workspaces
 
         local name_index=-1
         for i in ${!workspace_names[@]}; do
@@ -406,6 +420,7 @@ function ws() {
             ;;
         "dirs")
             if [[ $workspace_exist == true ]]; then
+                _set_workspaces
                 for val in "${workspace_dirs[@]}"; do
                     echo $val
                 done
@@ -415,6 +430,7 @@ function ws() {
             ;;
         "clear-history")
             if [[ $workspace_exist == true ]]; then
+                _set_workspaces
                 for name in "${workspace_names[@]}"; do
                     tmux has-session -t "$workspace_name" &> /dev/null
                     if [[ $? == 0 ]]; then
@@ -432,11 +448,13 @@ function ws() {
             ;;
         "init")
             if [[ $workspace_exist == true ]]; then
+                _set_workspaces
                 _init
             fi
             ;;
         "list")
             if [[ $workspace_exist == true ]]; then
+                _set_workspaces
                 for i in "${!workspace_names[@]}"; do
                     echo "${workspace_names[$i]} -> ${workspace_dirs[$i]}"
                 done
@@ -446,6 +464,7 @@ function ws() {
             ;;
         "names")
             if [[ $workspace_exist == true ]]; then
+                _set_workspaces
                 for val in "${workspace_names[@]}"; do
                     echo $val
                 done
