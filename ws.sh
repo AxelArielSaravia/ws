@@ -262,11 +262,11 @@ function ws() {
     #_remove-all [1]=("-ws"|"-tmux"|"-all")
     _remove-all() {
         local tmux_clear=true
-        local wmux_clear=true
+        local ws_clear=true
         local msg_name="$NAME remove-all:"
 
         case "$1" in
-            "-tmux") wmux_clear=false;;
+            "-tmux") ws_clear=false;;
             "-ws") tmux_clear=false;;
         esac
 
@@ -275,7 +275,7 @@ function ws() {
             if [[ $tmux_clear == true ]]; then
                 tmux kill-server &> /dev/null
             fi
-            if [[ $wmux_clear == true ]]; then
+            if [[ $ws_clear == true ]]; then
                 echo -n > "$WORKSPACE_FILE"
             fi
         fi
@@ -286,9 +286,9 @@ function ws() {
         local workspace_name="$1"
 
         local tmux_kill=true
-        local wmux_kill=true
+        local ws_kill=true
         case "$2" in
-            "-tmux") wmux_kill=false;;
+            "-tmux") ws_kill=false;;
             "-ws") tmux_kill=false;;
         esac
 
@@ -322,7 +322,7 @@ function ws() {
                 fi
             fi
         fi
-        if [[ $wmux_kill == true ]]; then
+        if [[ $ws_kill == true ]]; then
             echo -n > "$WORKSPACE_FILE"
             for i in "${!workspace_names[@]}"; do
                 if [[ $i != $name_index ]]; then
