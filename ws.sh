@@ -51,7 +51,7 @@ function ws() {
                 echo ""
                 echo "    NAME  is any sequence of characters."
                 echo "    DIR   is any valid directory in the storage. if the DIR specified doe not"
-                echo "          exist, 'wmux add' can make it."
+                echo "          exist, 'ws add' can make it."
                 echo ""
                 echo "    Options:"
                 echo "    -tmux create a tmux session named with NAME thats opens on DIR working"
@@ -70,7 +70,7 @@ function ws() {
             "clear-history")
                 echo "Usage: $NAME clear-history"
                 echo ""
-                echo "Apply the tmux clear-history command in all tmux sessions related to wmux"
+                echo "Apply the tmux clear-history command in all tmux sessions related to ws"
                 echo ""
                 ;;
             "dirs")
@@ -106,10 +106,10 @@ function ws() {
                 echo "    NAME must be an existing workspace name.(See '$NAME names')"
                 echo ""
                 echo "    Options:"
-                echo "    -all  (default) delete both wmux and tmux information"
+                echo "    -all  (default) delete both ws and tmux information"
                 echo "    -tmux delete only the tmux session. You can use '$NAME init' to create"
                 echo "          a related tmux session again."
-                echo "    -ws   delete only the wmux information. If the tmux session are not"
+                echo "    -ws   delete only the ws information. If the tmux session are not"
                 echo "          persistent, the tmux information will be deleted."
                 echo ""
                 echo "If you are in a tmux session (and the '-tmux' option is set), the tmux"
@@ -122,10 +122,10 @@ function ws() {
                 echo "Delete all working direactory."
                 echo ""
                 echo "    Options:"
-                echo "    -all  (default) delete both wmux and tmux information"
+                echo "    -all  (default) delete both ws and tmux information"
                 echo "    -tmux delete only the tmux session. You can use '$NAME init' to create"
                 echo "          a related tmux session again."
-                echo "    -ws   delete only the wmux information. If the tmux session are not"
+                echo "    -ws   delete only the ws information. If the tmux session are not"
                 echo "          persistent, the tmux information will be deleted."
                 echo ""
                 ;;
