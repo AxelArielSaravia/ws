@@ -13,6 +13,7 @@
 #"remove"
 #"remove-all"
 #"tmux"
+#"qtmux"
 #"version"
 
 function ws() {
@@ -55,8 +56,11 @@ function ws() {
                 echo ""
                 echo "    Options:"
                 echo "    -tmux create a tmux session named with NAME thats opens on DIR working"
-                echo "          directory. If creation success shows a mesage in the console"
+                echo "          directory. If creation success shows a mesage in the console,"
                 echo "          otherwise do nothing."
+                echo "    -open create a tmux session named with NAME thats opens on DIR working"
+                echo "          directory. If creation success opens the tmux session, otherwise do"
+                echo "          nothing."
                 echo ""
                 echo "Important:"
                 echo "If '$NAME' workspace is overwritten, the related tmux session (if exist)"
@@ -188,15 +192,19 @@ function ws() {
             select-window -t "${WINDOWS[0]}"
     }
 
-    #_add [1]=new_name [2]=new_dir [3]=('-tmux')
+    #_add [1]=new_name [2]=new_dir [3]=('-tmux'|'-open')
     _add() {
         local new_name="$1"
         local new_dir=$(realpath "$2")
         local tmux_session=false
+        local open_session=false
 
         if [[ "$3" == "-tmux" ]]; then
             tmux_session=true
+        elif [[ "$3" == "-open" ]]; then
+            open_session=true
         fi
+
 
         _set_workspaces
 
@@ -249,15 +257,22 @@ function ws() {
             echo "$new_name $new_dir" >> "$WORKSPACE_FILE"
         fi
 
-        echo "$msg_name"
-        echo "  $new_name $new_dir"
-
-
-        if [[ $tmux_session == true ]]; then
+        if [[ $open_session == false ]]; then
+            echo "$msg_name"
+            echo "  $new_name $new_dir"
+            if [[ $tmux_session == true ]]; then
+                _create_tmux_session "$new_name" "$new_dir"
+                echo "$msg_name create tmux session."
+            fi
+        else
             _create_tmux_session "$new_name" "$new_dir"
-            echo "$msg_name create tmux session."
+            if [[ $TMUX ]]; then
+                tmux switch-client -t "$new_name"
+            else
+                tmux a -t "$new_name"
+            fi
         fi
-    }
+   }
 
     #_remove-all [1]=("-ws"|"-tmux"|"-all")
     _remove-all() {
