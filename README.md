@@ -28,8 +28,8 @@ created '.ws' dir. And add the next lines on '.bashsrc' to use the scripts as
 shell functions.
 
 ```sh
-if [[ -f ~/.ws/wmux.sh ]]; then
-    . ~/.ws/wmux.sh
+if [[ -f ~/.ws/ws.sh ]]; then
+    . ~/.ws/ws.sh
 fi
 ```
 
@@ -78,7 +78,7 @@ workspace.
 ```sh
 ws remove myproject
 ws remove myproject -tmux #only kill the tmux session
-ws remove myproject -wmux #only delete the workspace
+ws remove myproject -ws #only delete the workspace
 ```
 
 ``list``, ``dirs`` and ``names`` returns worspace information.
