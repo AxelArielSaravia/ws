@@ -471,8 +471,17 @@ function ws() {
         "list")
             if [[ $workspace_exist == true ]]; then
                 _set_workspaces
+                n=-1
+                c=0
+                for name in ${workspace_names[@]}; do 
+                    n=${#name}
+                    if (( $c < $n )); then
+                        c=$n
+                    fi
+                done
                 for i in "${!workspace_names[@]}"; do
-                    echo "${workspace_names[$i]} -> ${workspace_dirs[$i]}"
+                    printf "%-0${c}s" ${workspace_names[$i]}
+                    echo " -> ${workspace_dirs[$i]}"
                 done
             else
                 echo "$NAME list: no workspace found."

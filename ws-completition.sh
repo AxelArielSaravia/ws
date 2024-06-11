@@ -45,7 +45,7 @@ _ws_complete() {
 
     if [[ $COMP_CWORD == 4 ]]; then
         if [[ $command == "add" ]]; then
-            COMPREPLY=($(compgen -W "-tmux -o -open" -- "${COMP_WORDS[4]}"))
+            COMPREPLY=($(compgen -W "-tmux -open" -- "${COMP_WORDS[4]}"))
         fi
         return;
     fi
