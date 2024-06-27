@@ -259,7 +259,7 @@ function ws() {
 
         if [[ $open_session == false ]]; then
             echo "$msg_name"
-            echo "  $new_name $new_dir"
+            echo "  $new_name <- $new_dir"
             if [[ $tmux_session == true ]]; then
                 _create_tmux_session "$new_name" "$new_dir"
                 echo "$msg_name create tmux session."
