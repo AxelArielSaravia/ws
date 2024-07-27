@@ -1,7 +1,6 @@
 # ws
-v0.0.4
-[![GLWTPL](https://img.shields.io/badge/GLWT-Public_License-red.svg)](https://github.com/me-shaon/GLWTPL
-)
+version dev-2024-08
+[![GLWTPL](https://img.shields.io/badge/GLWT-Public_License-red.svg)](https://github.com/me-shaon/GLWTPL)
 
 **ws** is a tool to managing working directories, and simplify 'tmux sessions'.
 Its always create a tmux session with 2 windows, one for a text editor like
@@ -17,31 +16,17 @@ distributions.
 You must have installed:
 - tmux
 
+Copy the 'ws' file in '/usr/bin' directory
 
-Create a '.ws' in home the directory
+I recomended to copy the 'ws-completition.sh' file in to '/etc/bash_completion.d/'
+directory for <Tab><Tab> autocompletitions (that was one of the points of
+this tool).
+
+Besides, I recomend to write the next lines of sh code in the
+'.bash_profile' file to have a simple persistents tmux sessions.
 ```sh
-mkdir $HOME/.ws
+ws init-tmux
 ```
-copy and paste the 'ws.sh' and 'gowork.sh' ('gowork' is a cp wrapper to jump
-directly to a working directory), that are in src in this github, on the
-created '.ws' dir. And add the next lines on '.bashsrc' to use the scripts as
-shell functions.
-
-```sh
-if [[ -f ~/.ws/ws.sh ]]; then
-    . ~/.ws/ws.sh
-fi
-```
-
-I recomended to copy and paste the 'ws-completition.sh' file in to
-'/etc/bash_completion.d/' dir for <Tab><Tab> autocompletitions (that was one
-of the points of this tool). Besides, I recomend to write the next lines of sh
-code in the '.bash_profile' file to have a simple persistents tmux sessions.
-
-```sh
-ws init
-```
-
 
 ### How to used
 
@@ -53,8 +38,8 @@ ws help
 
 **ws** have the next commands:
     
-    add  clear-history  dirs  go  init  help  list
-    names  remove  remove-all  tmux  version
+    add  clear-history  dir  dirs  help  init-tmux  list
+    names  open  remove  remove-all  tmux  version
     
 
 Use ``add`` to create new or edit workspaces. For instance:
@@ -62,7 +47,7 @@ Use ``add`` to create new or edit workspaces. For instance:
 ws add myproject ~/Mydir/project/
 ```
 
-Use ``tmux`` for open (and create) a tmux session (remember that the tmux
+Use ``open`` or ``tmux`` for open (and create) a tmux session (remember that the tmux
 sessions created have 2 windows):
 ```sh
 ws tmux myproject

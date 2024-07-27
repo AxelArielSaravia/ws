@@ -1,55 +1,68 @@
 #!/bin/bash
 
-# Copyright 2024 Axel Ariel Saravia
+#Creator: Axel Ariel Saravia
+#Licence: GLWT(Good Luck With That) Public License
 
 _ws_complete() {
+    local workspace_file="$HOME/.ws/.workspace"
+    local commands=(
+        "add"
+        "clear-history"
+        "dir"
+        "dirs"
+        "help"
+        "init-tmux"
+        "list"
+        "names"
+        "open"
+        "remove"
+        "remove-all"
+        "tmux"
+        "version"
+    )
+    local add_flags=("-tmux" "-open")
+    local list_flags=("-tmux")
+    local remove_flags=("-tmux" "-ws")
+    local names=()
     local command="${COMP_WORDS[1]}"
-    if [[ $COMP_CWORD == 1 ]]; then
-        COMPREPLY=($(compgen -W\
-            "add clear-history dir go help init names list remove remove-all tmux version"\
-            --\
-            "${COMP_WORDS[1]}"\
-        ))
-        return;
-    fi
-    if [[ $COMP_CWORD == 2 ]]; then
-        case $command in
-           "help")
-                COMPREPLY=($(compgen -W\
-                "add clear-history dir go init names list remove remove-all tmux version"\
-                    --\
-                    "${COMP_WORDS[2]}"\
-                ))
-                ;;
-            "go"|"remove"|"tmux")
-                if [ -f "$HOME/.ws/.workspace"  ]; then
-                    COMPREPLY=($(compgen -W\
-                        "$(cat "$HOME/.ws/.workspace" | cut -d" " -f1 2> /dev/null)"\
-                        --\
-                        "${COMP_WORDS[2]}"\
-                    ))
+
+    case $COMP_CWORD in
+        1) COMPREPLY=($(compgen -W "${commands[*]}" -- "${COMP_WORDS[1]}")) ;;
+        2) case $command in
+            "help")
+                COMPREPLY=($(compgen -W "${commands[*]}" -- "${COMP_WORDS[2]}"))
+            ;;
+            "remove-all")
+                COMPREPLY=($(compgen -W "${remove_flags[*]}" -- ${COMP_WORDS[2]}))
+            ;;
+            "list")
+                COMPREPLY=($(compgen -W "${list_flags[*]}" -- ${COMP_WORDS[2]}))
+            ;;
+            "remove"|"tmux"|"open"|"dir")
+                if [[ -f $workspace_file && -s $workspace_file ]]; then
+                    while read line; do
+                        if [[ "${line:0:1}" == "n" ]]; then
+                            names+=("${line:2}")
+                        fi
+                    done < $workspace_file
+                    COMPREPLY=($(compgen -W "${names[*]}" -- "${COMP_WORDS[2]}"))
                 fi
                 ;;
-            "remove-all")
-                COMPREPLY=($(compgen -W "-ws -tmux -all" -- ${COMP_WORDS[3]}))
+            esac
+        ;;
+        3) case $command in
+                "remove")
+                    COMPREPLY=($(compgen -W "${remove_flags[*]}" -- ${COMP_WORDS[3]}))
                 ;;
-        esac
-        return;
-    fi
-    if [[ $COMP_CWORD == 3 ]]; then
-        if [[ $command == "remove" ]]; then
-            COMPREPLY=($(compgen -W "-ws -tmux -all" -- "${COMP_WORDS[3]}"))
-        fi
-        return;
-    fi
-
-    if [[ $COMP_CWORD == 4 ]]; then
-        if [[ $command == "add" ]]; then
-            COMPREPLY=($(compgen -W "-tmux -open" -- "${COMP_WORDS[4]}"))
-        fi
-        return;
-    fi
-
+            esac
+        ;;
+        4) case $command in
+            "add")
+                COMPREPLY=($(compgen -W "${remove_flags[*]}" -- "${COMP_WORDS[4]}"))
+            ;;
+            esac
+        ;;
+    esac
 }
 
-complete -o default -o bashdefault -F _ws_complete ws
+complete -o default -D -F _ws_complete ws
