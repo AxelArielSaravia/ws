@@ -65,4 +65,4 @@ _ws_complete() {
     esac
 }
 
-complete -o default -D -F _ws_complete ws
+complete -o default -F _ws_complete ws
